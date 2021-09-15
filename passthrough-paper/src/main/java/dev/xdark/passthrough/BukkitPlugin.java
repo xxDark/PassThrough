@@ -25,8 +25,9 @@ public final class BukkitPlugin extends JavaPlugin implements Listener, PacketPa
 
   @Override
   public void onLoad() {
+    Server server = getServer();
     Preconditions.checkState(
-        getServer().getCurrentTick() == 0, "The plugin cannot be loaded after server boot");
+        server.getCurrentTick() == 0, "The plugin cannot be loaded after server boot");
     ServerUtil.ensureThresholdSet();
     Collection<ChannelFuture> endpoints = ServerUtil.getEndpoints();
     getLogger().info(String.format("Injecting into %d endpoints", endpoints.size()));
@@ -37,15 +38,14 @@ public final class BukkitPlugin extends JavaPlugin implements Listener, PacketPa
         future.addListener((ChannelFutureListener) this::injectServerChannelFuture);
       }
     }
+    server
+        .getServicesManager()
+        .register(PacketPassThroughApi.class, this, this, ServicePriority.Highest);
   }
 
   @Override
   public void onEnable() {
-    Server server = getServer();
-    server.getPluginManager().registerEvents(this, this);
-    server
-        .getServicesManager()
-        .register(PacketPassThroughApi.class, this, this, ServicePriority.Highest);
+    getServer().getPluginManager().registerEvents(this, this);
   }
 
   @Override
