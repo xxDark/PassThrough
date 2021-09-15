@@ -1,0 +1,4 @@
+name: PassThrough
+version: 1.0
+author: __xDark
+main: dev.xdark.passthrough.BungeePlugin

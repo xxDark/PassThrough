@@ -1,0 +1,10 @@
+repositories {
+    mavenLocal()
+}
+
+dependencies {
+    compileOnly 'net.md-5:bungeecord-proxy:1.17-R0.1-SNAPSHOT'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8

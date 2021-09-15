@@ -1,0 +1,5 @@
+name: PassThrough
+version: 1.0
+api-version: 1.17
+author: __xDark
+main: dev.xdark.passthrough.BukkitPlugin

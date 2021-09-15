@@ -1,0 +1,3 @@
+rootProject.name = 'passthrough'
+include 'passthrough-paper'
+include 'passthrough-bungee'
