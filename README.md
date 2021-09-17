@@ -33,22 +33,25 @@ Example:
 
 ```Java
 import dev.xdark.passthrough.PacketPassThroughApi;
-import net.minecraft.network.protocol.game.ClientboundLevelChunkPacket;
+import net.minecraft.network.protocol.game.ClientboundDisconnectPacket;
+import net.minecraft.network.protocol.game.ClientboundLoginPacket;
+import net.minecraft.network.protocol.login.ClientboundGameProfilePacket;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MyFilterPlugin extends JavaPlugin {
 
-	@Override
-	public void onEnable() {
-		PacketPassThroughApi api =
-				getServer().getServicesManager().getRegistration(PacketPassThroughApi.class).getProvider();
-		api.addPassThrough(
-				this,
-				packet -> {
-					// This will prevent any chunk packet from being unpacked on the proxy.
-					return packet instanceof ClientboundLevelChunkPacket;
-				});
-	}
+  @Override
+  public void onEnable() {
+    PacketPassThroughApi api =
+        getServer().getServicesManager().getRegistration(PacketPassThroughApi.class).getProvider();
+    api.addPassThrough(
+        this,
+        packet ->
+            // Filter any packet except these that are required for login/disconnect
+            !(packet instanceof ClientboundGameProfilePacket)
+                && !(packet instanceof ClientboundLoginPacket)
+                && !(packet instanceof ClientboundDisconnectPacket));
+  }
 }
 ```
 
